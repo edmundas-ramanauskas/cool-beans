@@ -10,9 +10,9 @@ export default class App extends React.Component {
     return <div className={styles.wrapper}>
       <Header/>
       <div className={styles.container}>
-        <Bean total={3} idx={0} code="1" />
-        <Bean total={3} idx={1} code="2" />
-        <Bean total={3} idx={2} code="3" />
+        <Bean className={styles.bean1} total={3} idx={0} code="1" />
+        <Bean className={styles.bean2} total={3} idx={1} code="2" />
+        <Bean className={styles.bean3} total={3} idx={2} code="3" />
       </div>
     </div>
   }
