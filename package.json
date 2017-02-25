@@ -1,0 +1,48 @@
+{
+  "name": "cool-beans",
+  "version": "0.0.1",
+  "description": "cool-beans",
+  "scripts": {
+    "build": "webpack --config meta/webpack.config.js --colors --progress --hide-modules",
+    "start": "webpack-dev-server --config meta/webpack.dev.config.js"
+  },
+  "author": "edmundas",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.4.2",
+    "react-dom": "^15.4.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.5",
+    "babel-core": "^6.23.1",
+    "babel-eslint": "^7.0.0",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-class-properties": "^6.23.0",
+    "babel-plugin-transform-object-assign": "^6.22.0",
+    "babel-plugin-transform-react-constant-elements": "^6.23.0",
+    "babel-plugin-transform-react-inline-elements": "^6.22.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "babel-runtime": "^6.23.0",
+    "copy-webpack-plugin": "^4.0.1",
+    "css-loader": "^0.26.2",
+    "eslint": "^3.16.1",
+    "eslint-loader": "^1.5.0",
+    "eslint-plugin-babel": "^4.0.1",
+    "eslint-plugin-react": "^6.3.0",
+    "extract-text-webpack-plugin": "^2.0.0",
+    "file-loader": "^0.10.0",
+    "html-webpack-plugin": "^2.22.0",
+    "image-webpack-loader": "^3.1.0",
+    "jsx-loader": "^0.13.2",
+    "postcss": "^5.2.15",
+    "postcss-loader": "^1.3.2",
+    "react-hot-loader": "^3.0.0-beta.5",
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1",
+    "worker-loader": "^0.7.1"
+  }
+}
