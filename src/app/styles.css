@@ -4,11 +4,11 @@
 }
 .container {
   width: 300px;
-  height: 200px;
+  height: 280px;
   position: relative;
   left: 50%;
   margin-left: -150px;
-  margin-top: 20px;
+  margin-top: 40px;
 }
 .bean1 {
   position: absolute;
@@ -25,4 +25,25 @@
   position: absolute;
   right: -100px;
   bottom: 0;
+}
+
+.link1 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 280px;
+}
+.link2 {
+  position: absolute;
+  top: 125px;
+  left: 110px;
+  width: 280px;
+  transform: rotate(45deg);
+}
+.link3 {
+  position: absolute;
+  top: 125px;
+  right: 110px;
+  width: 280px;
+  transform: rotate(-45deg);
 }

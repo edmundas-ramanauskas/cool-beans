@@ -7,6 +7,7 @@ const styles = require('./styles.css')
 
 export default class Bean extends React.Component {
   static propTypes = {
+    onBroadcast: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
     total: React.PropTypes.number.isRequired,
     code: React.PropTypes.string.isRequired,
@@ -24,7 +25,7 @@ export default class Bean extends React.Component {
   updateState = ({ count, total }) => this.setState({ count, total })
   increment = () => this.worker.postMessage({ type: 'increment' })
 
-  onWorkerMessage = ({ data }) => {
+  onMessage = ({ data }) => {
     switch(data.type) {
       case 'results':
         // reflect worker state changes in UI
@@ -32,7 +33,7 @@ export default class Bean extends React.Component {
         break
       case 'broadcast':
         // broadcast message to all beans
-        window.postMessage(data, '*')
+        this.props.onBroadcast(data.params)
         break
     }
   }
@@ -41,33 +42,26 @@ export default class Bean extends React.Component {
       this.increment()
     }
   }
-  onMessage = ({ data }) => {
-    // listen for broadcast messages from other beans
-    if (data.type === 'broadcast' && data.params) {
-      // ignore message from itself
-      if (data.params.idx === this.props.idx) return
-      // inform worker about received data
-      this.worker.postMessage({
-        type: 'synchronize',
-        params: data.params
-      })
-    }
+  update({ idx, count }) {
+    // ignore message from itself
+    if (idx === this.props.idx) return
+    this.worker.postMessage({
+      type: 'synchronize',
+      params: { idx, count }
+    })
   }
 
   componentDidMount() {
     // listen for messages from worker
-    this.worker.addEventListener('message', this.onWorkerMessage)
+    this.worker.addEventListener('message', this.onMessage)
     this.worker.postMessage({ type: 'initialize', params: {
       idx: this.props.idx,
       total: this.props.total
     }})
     window.addEventListener('keydown', this.onKeyDown)
-    // listen for messages from other beans
-    window.addEventListener('message', this.onMessage)
   }
   componentWillUnmount() {
     window.removeEventListener('keydown', this.onKeyDown)
-    window.removeEventListener('message', this.onMessage)
   }
   render() {
     const className = classNames(styles.bean, this.props.className)

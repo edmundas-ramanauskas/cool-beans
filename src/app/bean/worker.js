@@ -16,7 +16,7 @@ const broadcast = () => {
   setTimeout(() => {
     self.postMessage({ type: 'broadcast', params: {
       idx: data.idx,
-      counter: data.counters[data.idx]
+      count: data.counters[data.idx]
     }})
     broadcast()
   }, delay)
@@ -51,13 +51,13 @@ const actions = {
     data.counters[data.idx]++
     postResults()
   },
-  synchronize: ({ idx, counter }) => {
+  synchronize: ({ idx, count }) => {
     // reject own counter in case it's not rejected at higher level
     if (idx === data.idx) return
     // reject synchronization events without changes
-    if (data.counters[idx] === counter) return
+    if (data.counters[idx] === count) return
 
-    data.counters[idx] = counter
+    data.counters[idx] = count
     // inform UI about changes
     postResults()
   }
