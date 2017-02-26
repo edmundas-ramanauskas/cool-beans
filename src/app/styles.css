@@ -27,23 +27,29 @@
   bottom: 0;
 }
 
-.link1 {
-  position: absolute;
-  bottom: 0;
-  left: 0;
+.link {
   width: 280px;
+  position: absolute;
+  opacity: 0;
+  transition: opacity 500ms ease-in;
+}
+.link1 {
+  composes: link;
+  top: 125px;
+  right: 110px;
+  transform: rotate(-45deg);
 }
 .link2 {
-  position: absolute;
+  composes: link;
   top: 125px;
   left: 110px;
-  width: 280px;
   transform: rotate(45deg);
 }
 .link3 {
-  position: absolute;
-  top: 125px;
-  right: 110px;
-  width: 280px;
-  transform: rotate(-45deg);
+  composes: link;
+  bottom: 0;
+  left: 0;
+}
+.show {
+  opacity: 1;
 }

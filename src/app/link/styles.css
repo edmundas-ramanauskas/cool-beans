@@ -1,12 +1,30 @@
-@keyframes neon {
-  from { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
-  50% { background-color: #91bd09; -webkit-box-shadow: 0 0 18px #91bd09; }
-  to { background-color: #749a02; -webkit-box-shadow: 0 0 9px #333; }
-}
 .link {
   width: auto;
   height: 10px;
   margin: 10px;
   border-radius: 5px;
-  animation: neon 1.5s ease-in-out infinite alternate;
+  background-color: green;
+  position: relative;
+}
+.left {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-right:10px solid green;
+  background-color: transparent;
+  position: absolute;
+  left: -5px;
+  top: -5px;
+}
+.right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  border-left: 10px solid green;
+  background-color: transparent;
+  position: absolute;
+  right: -5px;
+  top: -5px;
 }
