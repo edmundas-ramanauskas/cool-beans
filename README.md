@@ -4,5 +4,5 @@
 
 * Clone the project
 * Run `npm install` to install all the dependencies
-* Run `npm start` to start project in development mode
-* Open browser and enter url `http:localhost:3000`
+* Run `npm start` to start the project in development mode
+* Open browser and enter url `http://localhost:3000`
