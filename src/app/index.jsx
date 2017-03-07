@@ -8,10 +8,14 @@ import Header from './header'
 
 const styles = require('./styles.css')
 
+const channel1 = new MessageChannel()
+const channel2 = new MessageChannel()
+const channel3 = new MessageChannel()
+
 const beans = [
-  { code: '1' },
-  { code: '2' },
-  { code: '3' }
+  { code: '1', ports: [ channel1.port1, channel2.port1 ] },
+  { code: '2', ports: [ channel1.port2, channel3.port1 ] },
+  { code: '3', ports: [ channel2.port2, channel3.port2 ] }
 ]
 
 export default class App extends React.Component {
@@ -27,14 +31,6 @@ export default class App extends React.Component {
         '21': {}
       }
     }
-  }
-  onBroadcast = (data) => {
-    this.triggerLinks(data)
-    setTimeout(() => {
-      beans.forEach((bean, i) => {
-        this.refs[`bean${i}`].update(data)
-      })
-    }, 500)
   }
   triggerLinks = ({ idx, count }) => {
     const links = beans.reduce((result, bean, i) => {
@@ -67,10 +63,8 @@ export default class App extends React.Component {
     }
   }
   renderBeans = () => beans.map((bean, i) =>
-    <Bean ref={`bean${i}`} key={i}
-      onBroadcast={this.onBroadcast}
-      className={styles[`bean${i+1}`]}
-      total={beans.length} idx={i} code={bean.code} />
+    <Bean key={i} className={styles[`bean${i+1}`]}
+      total={beans.length} idx={i} code={bean.code} ports={bean.ports} />
   )
   getLink = (key, show) => {
     const link1 = classNames(styles.link1, { [styles.show]: show })

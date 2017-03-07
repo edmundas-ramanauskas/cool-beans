@@ -5,6 +5,7 @@ const MIN = 1000, MAX = 5000
 
 const data = {
   idx: null,
+  ports: [],
   counters: []
 }
 
@@ -14,12 +15,23 @@ const totalSum = () => data.counters.reduce((total, counter) => total + counter,
 const broadcast = () => {
   const delay = getRandomIntInclusive(MIN, MAX)
   setTimeout(() => {
-    self.postMessage({ type: 'broadcast', params: {
-      idx: data.idx,
-      count: data.counters[data.idx]
-    }})
+    data.ports.forEach(port =>
+      port.postMessage({ type: 'synchronize', params: {
+        idx: data.idx,
+        count: data.counters[data.idx]
+      }})
+    )
     broadcast()
   }, delay)
+}
+
+const listen = () => {
+  if (!data.ports.length) throw new Error('No communication ports')
+
+  data.ports.forEach(port => {
+    // we accept all types of messages from workes
+    port.onmessage = messageHandler
+  })
 }
 
 const postResults = () =>
@@ -32,15 +44,19 @@ const postResults = () =>
   })
 
 const actions = {
-  initialize: ({ idx, total }) => {
+  initialize: ({ idx, total, ports }) => {
     // can't initialize more than once
     if (data.idx !== null) throw new Error('Already initialized')
     // save bean id
     data.idx = idx
+    // save ports
+    data.ports = ports || []
     // prefill all counters with 0
     for(let i = 0; i < total; i++) {
       data.counters.push(0)
     }
+    // start listening for messages from other workers
+    listen()
     // start broadcasting
     broadcast()
   },
@@ -63,7 +79,7 @@ const actions = {
   }
 }
 
-self.onmessage = (msg) => {
+const messageHandler = (msg) => {
   const { type, params } = msg.data
 
   // validate message data
@@ -72,3 +88,5 @@ self.onmessage = (msg) => {
 
   actions[type].call(null, params)
 }
+
+self.onmessage = messageHandler

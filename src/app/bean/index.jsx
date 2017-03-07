@@ -7,8 +7,8 @@ const styles = require('./styles.css')
 
 export default class Bean extends React.Component {
   static propTypes = {
-    onBroadcast: React.PropTypes.func.isRequired,
     className: React.PropTypes.string,
+    ports: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
     total: React.PropTypes.number.isRequired,
     code: React.PropTypes.string.isRequired,
     idx: React.PropTypes.number.isRequired
@@ -31,9 +31,7 @@ export default class Bean extends React.Component {
         // reflect worker state changes in UI
         this.updateState(data.params)
         break
-      case 'broadcast':
-        // broadcast message to all beans
-        this.props.onBroadcast(data.params)
+      default:
         break
     }
   }
@@ -42,22 +40,15 @@ export default class Bean extends React.Component {
       this.increment()
     }
   }
-  update({ idx, count }) {
-    // ignore message from itself
-    if (idx === this.props.idx) return
-    this.worker.postMessage({
-      type: 'synchronize',
-      params: { idx, count }
-    })
-  }
 
   componentDidMount() {
     // listen for messages from worker
     this.worker.addEventListener('message', this.onMessage)
     this.worker.postMessage({ type: 'initialize', params: {
       idx: this.props.idx,
-      total: this.props.total
-    }})
+      total: this.props.total,
+      ports: this.props.ports
+    }}, this.props.ports)
     window.addEventListener('keydown', this.onKeyDown)
   }
   componentWillUnmount() {
